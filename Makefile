@@ -12,12 +12,14 @@ all		:	$(NAME)
 
 $(NAME)	:	$(OBJ) src/jheader.h
 		@ echo "Compiling..., please wait!"
+		@ mkdir -p .databases output
 		@ $(MAKE) --no-print-directory -C inc/libft
 		@ $(CC) $(CFLAGS) -o $(NAME) $(OBJ) inc/libft/libft.a
 		@ echo "The journalier app has been successfully created!"
 
 leak	:	$(OBJ) src/jheader.h
 		@ echo "Compiling..., please wait!"
+		@ mkdir -p .databases output
 		@ $(MAKE) --no-print-directory -C inc/libft
 		@ $(CC) -fsanitize=address -fno-omit-frame-pointer -g $(CFLAGS) -o $(NAME) $(OBJ) inc/libft/libft.a
 		@ echo "The journalier app has been successfully created!"
@@ -30,6 +32,7 @@ clean	:
 fclean	:	clean
 		@ echo "Deletion of The journalier app!"
 		@ $(MAKE) --no-print-directory fclean -C inc/libft
+		@ $(RM) -rf .databases output
 		@ $(RM) -f $(NAME)
 
 re		:	fclean $(NAME)
