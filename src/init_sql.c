@@ -50,12 +50,17 @@ static int	init_exec(sqlite3 *db, const char *q1, const char *q2) {
 
 static int	blc_view(sqlite3 *db, const char *site)
 {
-	size_t		len;
 	char	*query;
 	char	*errorMsg;
+	char	*tmp;
+	size_t	len;
 
-	len = ft_strlen(BLC) - 46 + (ft_strlen(site) * 23);
-	query = formater(len, BLC, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site);
+	tmp = ft_substr(site, 0, 3);
+	if (!tmp)
+		return (0);
+	len = ft_strlen(BLC) - 45 + (ft_strlen(site) * 23);
+	query = formater(len, BLC, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site, site, tmp, site, site, site);
+	free(tmp);
 	if (!query)
 		return (0);
 	errorMsg = NULL;
