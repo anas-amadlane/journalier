@@ -1,5 +1,5 @@
 #define INIT_GUI_C
-#include "jheader.h"
+#include <jheader.h>
 
 const char			*wd;
 const char			*dbname;
@@ -35,7 +35,7 @@ static GtkWidget *init_box(GtkWidget *window) {
 	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
 	gtk_box_set_homogeneous(GTK_BOX(vbox), TRUE);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 20);
-	gtk_box_pack_start(GTK_BOX(vbox), load_logo(), FALSE, FALSE, 20);
+	gtk_box_pack_start(GTK_BOX(vbox), load_logo(window), FALSE, FALSE, 20);
 	gtk_box_pack_start(GTK_BOX(vbox), init_combo_box(), FALSE, FALSE, 0);
 
 	grid = gtk_grid_new();
@@ -56,21 +56,29 @@ static GtkWidget *init_box(GtkWidget *window) {
 	return vbox;
 }
 
-static GtkWidget	*load_logo(void) {
+static GtkWidget	*load_logo(GtkWidget *window) {
 	gint		new_width;
 	gint		new_height;
+	GList		*list;
 	GtkWidget	*logo_image;
 	GdkPixbuf	*logo_pixbuf;
 	GdkPixbuf	*resized_logo_pixbuf;
 	const char	*path;
 
-	path = ft_strjoin(wd, "inc/logo/srm.png");
+	path = ft_strjoin(wd, "data/logo/srm.png");
 	if (!path)
 		return (NULL);
 	logo_pixbuf = gdk_pixbuf_new_from_file(path, NULL);
+	if (!logo_pixbuf)
+		return (NULL);
 	new_width = 150;
 	new_height = (gdk_pixbuf_get_width(logo_pixbuf) * new_width) / gdk_pixbuf_get_height(logo_pixbuf);
 	resized_logo_pixbuf = gdk_pixbuf_scale_simple(logo_pixbuf, new_width, new_height, GDK_INTERP_BILINEAR);
+	if (!resized_logo_pixbuf)
+		return (NULL);
+    list = g_list_append(NULL, resized_logo_pixbuf);
+    gtk_window_set_icon_list(GTK_WINDOW(window), list);
+    g_list_free(list);
 	logo_image = gtk_image_new_from_pixbuf(resized_logo_pixbuf);
 	g_object_unref(logo_pixbuf);
 	g_object_unref(resized_logo_pixbuf);
