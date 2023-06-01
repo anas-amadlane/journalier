@@ -6,6 +6,8 @@ char	*formater(size_t len, char *form, ...) {
 	char    *s;
 	va_list var;
 
+	if (!form)
+		return (NULL);
 	s = (char *)malloc(sizeof(char) * (++len));
 	if (s) {
 		i = -1;

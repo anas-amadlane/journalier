@@ -78,6 +78,8 @@ static GtkWidget	*load_logo(GtkWidget *window) {
 		return (NULL);
     list = g_list_append(NULL, resized_logo_pixbuf);
     gtk_window_set_icon_list(GTK_WINDOW(window), list);
+	gtk_window_set_icon(GTK_WINDOW(window), resized_logo_pixbuf);
+    g_object_unref(resized_logo_pixbuf);
     g_list_free(list);
 	logo_image = gtk_image_new_from_pixbuf(resized_logo_pixbuf);
 	g_object_unref(logo_pixbuf);
@@ -192,6 +194,7 @@ static GtkWidget	*export_button(GtkWidget *window) {
 }
 
 static void	on_export_button_clicked(GtkButton *button, gpointer user_data) {
+	char	*tmp;
 	char	*path;
 
 	(void)button;
@@ -203,7 +206,14 @@ static void	on_export_button_clicked(GtkButton *button, gpointer user_data) {
 	if (site && ft_strncmp(site, "Select Site", 11)) {
 		date[0] = NULL;
 		date[1] = NULL;
-		path = formater(15 + ft_strlen(site), "output/BL_%s.xlsx", site);
+		if (APPNAME == 14)
+			tmp = ft_strjoin(getenv("APPDATA"), "\\journalier\\output\\BL_%s.xlsx");
+		else
+			tmp = ft_strjoin(wd, "output/BL_%s.xlsx");
+		path = formater(ft_strlen(tmp) + ft_strlen(site) - 2, tmp, site);
+		free(tmp);
+		if (!path)
+			return ;
 		if (!show_export_popup(GTK_WIDGET(user_data), &path)) {
 			gtk_label_set_text(GTK_LABEL(status_label_x), "Status: Please wait...");
 			if (export_bl(path, site, (const char **)date))

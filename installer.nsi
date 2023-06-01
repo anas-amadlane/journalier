@@ -1,7 +1,12 @@
 Name "Journalier"
 Outfile "setup\Journalier_setup.exe"
 InstallDir "$PROGRAMFILES\Journalier"
-VIProductVersion "1.0.0"
+VIAddVersionKey "CompanyName" "Soremed"
+VIAddVersionKey "FileDescription" "Company daily BL analysis"
+VIAddVersionKey "FileVersion" "1.0.0"
+VIAddVersionKey "ProductName" "journalier"
+VIProductVersion "1.0.0.0"
+VIAddVersionKey "LegalCopyright" "Copyright (C) 2023 Soremed"
 
 !include LogicLib.nsh
 
