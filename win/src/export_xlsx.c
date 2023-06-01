@@ -75,7 +75,7 @@ static int	init_export(t_exp *arg, const char *xlsx_file, const char *site, cons
 	if (!arg)
 		return (1);
 	arg->db = NULL;
-	if (!sqlite3_open(DB_NAME, &arg->db)) {
+	if (!sqlite3_open(dbname, &arg->db)) {
 		if (query_generater(&query, site, date))
 			return (1);
 		if (sqlite3_prepare_v2(arg->db, query, -1, &arg->table, NULL))

@@ -1,14 +1,23 @@
 #define INIT_GUI_C
 #include "../inc/jheader.h"
 
-static char		*site;
-static char		*date[2];
-static GtkWidget *status_label_p;
-static GtkWidget *status_label_x;
+const char			*wd;
+const char			*dbname;
+static char			*site;
+static char			*date[2];
+static GtkWidget	*status_label_p;
+static GtkWidget	*status_label_x;
 
 int main(int ac, char **av) {
 	GtkWidget	*window;
 
+	wd = ft_substr(av[0], 0, ft_strlen(av[0]) - APPNAME);
+	if (APPNAME == 14)
+		dbname = ft_strjoin(getenv("APPDATA"), "\\journalier\\journalier.db");
+	else
+		dbname = ft_strjoin(wd, ".databases/journalier.db");
+	if (!wd || !dbname)
+		return (1);
 	gtk_init(&ac, &av);
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), "Detail Journalier");
@@ -16,7 +25,7 @@ int main(int ac, char **av) {
 	gtk_container_add(GTK_CONTAINER(window), init_box(window));
 	gtk_widget_show_all(window);
 	gtk_main();
-	return 0;
+	return (free((char *)wd), free((char *)dbname), 0);
 }
 
 static GtkWidget *init_box(GtkWidget *window) {
@@ -53,16 +62,19 @@ static GtkWidget	*load_logo(void) {
 	GtkWidget	*logo_image;
 	GdkPixbuf	*logo_pixbuf;
 	GdkPixbuf	*resized_logo_pixbuf;
+	const char	*path;
 
-	logo_image = NULL;
-	logo_pixbuf = gdk_pixbuf_new_from_file("data/logo/srm.png", NULL);
+	path = ft_strjoin(wd, "inc/logo/srm.png");
+	if (!path)
+		return (NULL);
+	logo_pixbuf = gdk_pixbuf_new_from_file(path, NULL);
 	new_width = 150;
 	new_height = (gdk_pixbuf_get_width(logo_pixbuf) * new_width) / gdk_pixbuf_get_height(logo_pixbuf);
 	resized_logo_pixbuf = gdk_pixbuf_scale_simple(logo_pixbuf, new_width, new_height, GDK_INTERP_BILINEAR);
 	logo_image = gtk_image_new_from_pixbuf(resized_logo_pixbuf);
 	g_object_unref(logo_pixbuf);
 	g_object_unref(resized_logo_pixbuf);
-	return (logo_image);
+	return (free((char *)path), logo_image);
 }
 
 static GtkWidget	*copyright(void) {

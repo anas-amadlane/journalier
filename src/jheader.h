@@ -7,12 +7,19 @@
 # include <xlsxio_read.h>
 # include <xlsxio_write.h>
 
-# define DB_NAME ".databases/journalier.db"
+# ifndef APPNAME
+#  define APPNAME 14
+# endif
+
+//# define DB_NAME ".databases/journalier.db"
 # define MAT 1
 # define CLT 2
 # define BL 3
 # define CSV 4
 # define XLSX 5
+
+extern const char	*wd;
+extern const char	*dbname;
 
 # ifdef EXPORT_XLSX_C
 #  define EXP_QU_ND "SELECT * FROM BLC_VIEW_%s;"
@@ -70,7 +77,7 @@ typedef struct s_table {
 	sqlite3	*db;
 } t_table;
 
-sqlite3		*init_db(char *dbName, int table, const char *site);
+sqlite3		*init_db(const char *dbName, int table, const char *site);
 static int	query_init(int table, const char *site, t_table *protype);
 static int	insert_query(xlsxioreadersheet sheet, t_table *protype, int table);
 static int	query_exec(char **query, t_table *protype);

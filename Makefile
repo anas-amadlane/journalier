@@ -2,7 +2,7 @@ NAME	=	journalier
 
 LIBS	=	-lxlsxio_read -lxlsxio_write -lsqlite3 `pkg-config --cflags --libs gtk+-3.0`
 
-CFLAGS	=	-Wall -Wextra -Werror $(LIBS)
+CFLAGS	=	-Wall -Wextra -Werror -DAPPNAME=10 $(LIBS)
 
 SRC		=	src/init_gui.c src/init_xlsx.c src/init_sql.c src/sql_insert.c src/tools.c src/export_xlsx.c
 

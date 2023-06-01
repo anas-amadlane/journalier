@@ -30,6 +30,7 @@ Section
         DetailPrint "GTK3 is already installed."
     ${EndIf}
 
+    CreateDirectory "$APPDATA\journalier"
     SetOutPath "$INSTDIR"
     File "journalier.exe"
     File "DLLs\libxlsxio_read.dll"
@@ -37,7 +38,6 @@ Section
     File "DLLs\libzip.dll"
     File "DLLs\libzstd.dll"
 
-    CreateDirectory "$INSTDIR\.databases"
     CreateDirectory "$INSTDIR\output"
 
     SetOutPath "$INSTDIR\data\table"

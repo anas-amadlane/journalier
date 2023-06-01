@@ -1,7 +1,7 @@
 #define INIT_SQL_C
 #include "jheader.h"
 
-sqlite3	*init_db(char *dbName, int table, const char *site)
+sqlite3	*init_db(const char *dbName, int table, const char *site)
 {
 	sqlite3	*db;
 

@@ -5,7 +5,8 @@ int	init_insert(xlsxioreadersheet sheet, int table, const char *site)
 {
 	t_table	protype;
 
-	protype.db = init_db(DB_NAME, table, site);
+	//printf("%s\n", wd);
+	protype.db = init_db(dbname, table, site);
 	if (!protype.db)
 		return (ft_putendl_fd("Database creation failed", 2), 1);
 	query_init(table, site, &protype);
